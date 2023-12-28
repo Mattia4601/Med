@@ -39,7 +39,7 @@ public class Doctor {
 	public void setSpeciality(String speciality) {
 		this.speciality = speciality;
 	}
-	//sc
+	//scrrds
 	// constructorfdgd
 	public Doctor(String id, String name, String surname, String speciality) {
 		super();
