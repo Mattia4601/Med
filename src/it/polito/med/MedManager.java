@@ -3,9 +3,16 @@ package it.polito.med;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class MedManager {
 
+	// specialities collection
+	private TreeSet<String> specialitiesColl = new TreeSet<>();
+	// doctors collection
+	private TreeMap<String,Doctor> doctorsColl = new TreeMap<>();
 	/**
 	 * add a set of medical specialities to the list of specialities
 	 * offered by the med centre.
@@ -16,6 +23,11 @@ public class MedManager {
 	 */
 	public void addSpecialities(String... specialities) {
 		
+		// for each specialty add it to the collection
+		for (String spec : specialities) {
+			specialitiesColl.add(spec);
+		}
+		
 	}
 
 	/**
@@ -24,7 +36,7 @@ public class MedManager {
 	 * @return list of specialities
 	 */
 	public Collection<String> getSpecialities() {
-		return null;
+		return this.specialitiesColl;
 	}
 	
 	
@@ -38,7 +50,22 @@ public class MedManager {
 	 * @throws MedException in case of duplicate id or non-existing speciality
 	 */
 	public void addDoctor(String id, String name, String surname, String speciality) throws MedException {
-
+		
+		// check if the id has already been entered in the doctors coll
+		if (this.doctorsColl.containsKey(id)) {
+			throw new MedException();
+		}
+		
+		// check if the speciality exists
+		if (!this.specialitiesColl.contains(speciality)) {
+			throw new MedException();
+		}
+		
+		// create a new doctor
+		Doctor d = new Doctor(id,name,surname,speciality);
+		
+		this.doctorsColl.put(id, d);
+		
 	}
 
 	/**
@@ -48,7 +75,12 @@ public class MedManager {
 	 * @return the list of doctor ids
 	 */
 	public Collection<String> getSpecialists(String speciality) {
-		return null;
+		
+		Collection<String> res = this.doctorsColl.values().stream()
+				.filter(d->d.getSpeciality().equals(speciality))
+				.map(d->d.getId())
+				.collect(Collectors.toList());
+		return res;
 	}
 
 	/**
@@ -58,7 +90,10 @@ public class MedManager {
 	 * @return the name
 	 */
 	public String getDocName(String code) {
-		return null;
+		
+		Doctor d = this.doctorsColl.get(code);
+		
+		return d.getName();
 	}
 
 	/**
@@ -68,7 +103,10 @@ public class MedManager {
 	 * @return the surname
 	 */
 	public String getDocSurname(String code) {
-		return null;
+		
+		Doctor d = this.doctorsColl.get(code);
+		
+		return d.getSurname();
 	}
 
 	/**
@@ -84,7 +122,8 @@ public class MedManager {
 	 * @return the number of slots defined
 	 */
 	public int addDailySchedule(String code, String date, String start, String end, int duration) {
-		return -1;
+		
+		return 0;
 	}
 
 	/**
