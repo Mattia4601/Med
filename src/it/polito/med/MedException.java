@@ -1,5 +1,5 @@
 package it.polito.med;
-//kflsnàklfj
+//kflsnàklfjsss
 public class MedException extends Exception {
 
 	private static final long serialVersionUID = 1L;
