@@ -40,13 +40,14 @@ public class Doctor {
 		this.speciality = speciality;
 	}
 	//sc
-	// constructor
+	// constructorfdgd
 	public Doctor(String id, String name, String surname, String speciality) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
 		this.speciality = speciality;
+		
 	}
 	
 	
