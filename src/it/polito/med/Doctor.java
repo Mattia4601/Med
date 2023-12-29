@@ -13,6 +13,14 @@ public class Doctor {
 	private TreeMap<String,Set<String>> slots = new TreeMap<>();
 	
 	
+	// this method checks if the doctor is available for a specific date
+	public boolean hasDate(String date) {
+		return this.slots.containsKey(date);
+	}
+	// this method gives the set of slots with a specific date
+	public Set<String> getSlotsPerDate(String date){
+		return this.slots.get(date);
+	}
 	// this method adds a entry into the doc's slots map 
 	public void addSlot(String date, Set<String> slots) {
 		this.slots.put(date, slots);

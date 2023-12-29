@@ -52,15 +52,15 @@ public class TestExample {
 		assertEquals(6, numSlots);
 		mgr.addDailySchedule(code, "2023-07-04", "15:00", "18:00", 20);
 		mgr.addDailySchedule("OK358", "2023-07-03", "09:00", "11:00", 30);
-//		
-//		Map<String,List<String>> slots = mgr.findSlots("2023-07-04","Cardiology");
-//		assertNotNull(slots);
-//		assertEquals(1,slots.size());
-//		assertTrue(slots.containsKey(code));
-//		assertEquals(9, slots.get(code).size());
-//		assertTrue(slots.get(code).contains("15:00-15:20"));
-//		
-//		
+		
+		Map<String,List<String>> slots = mgr.findSlots("2023-07-04","Cardiology");
+		assertNotNull(slots);
+		assertEquals(1,slots.size());
+		assertTrue(slots.containsKey(code));
+		assertEquals(9, slots.get(code).size());
+		assertTrue(slots.get(code).contains("15:00-15:20"));
+		
+		
 //		// R3 : booking appointments
 //		
 //		String ssn = "GVNBNC80B14F219K";

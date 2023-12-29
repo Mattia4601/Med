@@ -1,5 +1,6 @@
 package it.polito.med;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -193,7 +194,12 @@ public class MedManager {
 	 * @return a map doc-id -> list of slots in the schedule
 	 */
 	public Map<String, List<String>> findSlots(String date, String speciality) {
-		return null;
+		
+		return this.doctorsColl.values().stream()
+				.filter(d->d.getSpeciality().equals(speciality))
+				.filter(d->d.hasDate(date))
+				.collect(Collectors.toMap(Doctor::getId, 
+						d->new ArrayList<>(d.getSlotsPerDate(date))));
 	}
 
 	/**
