@@ -15,6 +15,18 @@ public class Appointment {
 	
 	
 	
+	public Appointment(String ssn, String name, String surname, String docID, String date, String startTime,
+			String slotTime) {
+		super();
+		this.ssn = ssn;
+		this.name = name;
+		this.surname = surname;
+		this.docID = docID;
+		this.date = date;
+		this.startTime = startTime;
+		this.slotTime = slotTime;
+		
+	}
 	// getters and setters
 	public String getSsn() {
 		return ssn;

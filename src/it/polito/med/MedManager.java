@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class MedManager {
@@ -15,6 +17,9 @@ public class MedManager {
 	private TreeSet<String> specialitiesColl = new TreeSet<>();
 	// doctors collection
 	private TreeMap<String,Doctor> doctorsColl = new TreeMap<>();
+	// appointments collection
+	private TreeMap<String,Appointment> appColl = new TreeMap<>();
+	
 	/**
 	 * add a set of medical specialities to the list of specialities
 	 * offered by the med centre.
@@ -215,7 +220,45 @@ public class MedManager {
 	 * @throws MedException	in case of invalid code, date or slot
 	 */
 	public String setAppointment(String ssn, String name, String surname, String code, String date, String slot) throws MedException {
-		return null;
+		
+		// check the doc's code
+		if (!this.doctorsColl.containsKey(code))
+			throw new MedException();
+		// check the date
+		Doctor doc = this.doctorsColl.get(code);
+		if (!doc.hasDate(date))
+			throw new MedException();
+		// check the slot
+		Set<String> slotForDate = doc.getSlotsPerDate(date);
+		if (!slotForDate.contains(slot))
+			throw new MedException();
+		
+		// get the start time
+		// creo il pattern identificando 2 gruppi di cattura, \\d{2} significa due cifre decimali
+		Pattern pattern = Pattern.compile("(\\d{2}:\\d{2})-(\\d{2}:\\d{2})");
+		// distingui questi 2 gruppi con un matcher su slot
+		Matcher matcher = pattern.matcher(slot); 
+		String startTime;
+		if (matcher.find()) {
+			// estraggo lo start time, i gruppi partono da 1
+			startTime = matcher.group(1);	
+		}
+		else {
+			System.out.println("Matcher failed!");
+			return null;
+		}
+
+		// create a new appointment object
+		Appointment app = new Appointment(ssn,name,surname,code,date,startTime,slot);
+		// get the current size of appColl
+		int nApp = this.appColl.size();
+		// set the appointment id
+		app.setAppID(Integer.toString(nApp+1));
+		
+		// add the new appointment to our collection
+		this.appColl.put(Integer.toString(nApp+1), app);
+		
+		return Integer.toString(nApp+1);
 	}
 
 	/**

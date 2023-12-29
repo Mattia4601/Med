@@ -61,12 +61,12 @@ public class TestExample {
 		assertTrue(slots.get(code).contains("15:00-15:20"));
 		
 		
-//		// R3 : booking appointments
-//		
-//		String ssn = "GVNBNC80B14F219K";
-//		String a1 = mgr.setAppointment(ssn,"Giovanni","Bianchi",code,"2023-06-28","10:40-11:00");
-//		String a2 = mgr.setAppointment("LRARSS87G64A341J","Laura","Rossi",code,"2023-06-28","10:00-10:20");
-//		
+		// R3 : booking appointments
+		
+		String ssn = "GVNBNC80B14F219K";
+		String a1 = mgr.setAppointment(ssn,"Giovanni","Bianchi",code,"2023-06-28","10:40-11:00");
+		String a2 = mgr.setAppointment("LRARSS87G64A341J","Laura","Rossi",code,"2023-06-28","10:00-10:20");
+		
 //		assertEquals(code, mgr.getAppointmentDoctor(a1));
 //		assertEquals(ssn, mgr.getAppointmentPatient(a1));
 //		assertEquals("10:40", mgr.getAppointmentTime(a1));
