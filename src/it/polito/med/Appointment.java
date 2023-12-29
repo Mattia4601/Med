@@ -27,6 +27,13 @@ public class Appointment {
 		this.slotTime = slotTime;
 		
 	}
+	
+	// this method return an appointment in string format as below
+	// "hh:mm=SSN"
+	public String toStringAppointment() {
+		return this.startTime+"="+this.ssn;
+	}
+	
 	// getters and setters
 	public String getSsn() {
 		return ssn;

@@ -268,7 +268,7 @@ public class MedManager {
 	 * @return doctor code id
 	 */
 	public String getAppointmentDoctor(String idAppointment) {
-		return null;
+		return this.appColl.get(idAppointment).getDocID();
 	}
 
 	/**
@@ -278,7 +278,7 @@ public class MedManager {
 	 * @return doctor patient ssn
 	 */
 	public String getAppointmentPatient(String idAppointment) {
-		return null;
+		return this.appColl.get(idAppointment).getSsn();
 	}
 
 	/**
@@ -288,7 +288,7 @@ public class MedManager {
 	 * @return time of appointment
 	 */
 	public String getAppointmentTime(String idAppointment) {
-		return null;
+		return this.appColl.get(idAppointment).getStartTime();
 	}
 
 	/**
@@ -298,7 +298,7 @@ public class MedManager {
 	 * @return date
 	 */
 	public String getAppointmentDate(String idAppointment) {
-		return null;
+		return this.appColl.get(idAppointment).getDate();
 	}
 
 	/**
@@ -311,7 +311,12 @@ public class MedManager {
 	 * @return list of appointments
 	 */
 	public Collection<String> listAppointments(String code, String date) {
-		return null;
+		
+		return this.appColl.values().stream()
+				.filter(a->a.getDocID().equals(code))
+				.map(Appointment::toStringAppointment)
+				.collect(Collectors.toList());
+			
 	}
 
 	/**

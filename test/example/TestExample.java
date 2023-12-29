@@ -67,17 +67,17 @@ public class TestExample {
 		String a1 = mgr.setAppointment(ssn,"Giovanni","Bianchi",code,"2023-06-28","10:40-11:00");
 		String a2 = mgr.setAppointment("LRARSS87G64A341J","Laura","Rossi",code,"2023-06-28","10:00-10:20");
 		
-//		assertEquals(code, mgr.getAppointmentDoctor(a1));
-//		assertEquals(ssn, mgr.getAppointmentPatient(a1));
-//		assertEquals("10:40", mgr.getAppointmentTime(a1));
-//		assertEquals("2023-06-28", mgr.getAppointmentDate(a2));
-//		
-//		Collection<String> appointments = mgr.listAppointments(code,"2023-06-28");
-//		assertNotNull(appointments);
-//		assertEquals(2,appointments.size());
-//		assertTrue(appointments.contains("10:40="+ssn));
-//		
-//		
+		assertEquals(code, mgr.getAppointmentDoctor(a1));
+		assertEquals(ssn, mgr.getAppointmentPatient(a1));
+		assertEquals("10:40", mgr.getAppointmentTime(a1));
+		assertEquals("2023-06-28", mgr.getAppointmentDate(a2));
+		
+		Collection<String> appointments = mgr.listAppointments(code,"2023-06-28");
+		assertNotNull(appointments);
+		assertEquals(2,appointments.size());
+		assertTrue(appointments.contains("10:40="+ssn));
+		
+		
 //		// R4 : welcome patients
 //		
 //		int numApps = mgr.setCurrentDate("2023-06-28");
