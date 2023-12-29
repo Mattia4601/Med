@@ -3,6 +3,7 @@ package it.polito.med;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -123,9 +124,64 @@ public class MedManager {
 	 */
 	public int addDailySchedule(String code, String date, String start, String end, int duration) {
 		
-		return 0;
+		// get the doc obj
+		Doctor doc = this.doctorsColl.get(code);
+		
+		// get the start and end time hours and minute
+		String[] startFields = start.split(":");
+		int hStart = Integer.parseInt(startFields[0]),
+				mStart = Integer.parseInt(startFields[1]);
+		
+		String[] endFields = end.split(":");
+		int hEnd = Integer.parseInt(endFields[0]),
+				mEnd = Integer.parseInt(endFields[1]);
+		
+		// set for the slots in string format
+		TreeSet<String> slots_set = new TreeSet<>();
+		int countSlot=0;
+		while (true) {
+			
+			// if the current start time reached the end time stop the while
+			if (hStart == hEnd && mEnd == mStart)
+				break;
+			
+			// get the slot 
+			String slotString = toStringSlot(hStart,mStart,duration);
+			// add into the set
+			slots_set.add(slotString);
+			countSlot++;
+			// update the new start time for the next slot
+			String[] fields = slotString.split("-");
+			String[] fields2 = fields[1].split(":");
+			hStart = Integer.parseInt(fields2[0]); mStart = Integer.parseInt(fields2[1]);
+		}
+		
+		// add to doctor slots collection
+		doc.addSlot(date, slots_set);
+		return countSlot;
 	}
-
+	
+	// this function receive two integers representing the hour and minutes of the start time 
+	// another integer which represents the duration of the slot
+	// returns the slot in the format "hh:mm-hh:mm"
+	public String toStringSlot(int hs, int ms, int duration) {
+		int me = ms + duration;
+		int he = hs;
+		
+		if (me == 60) {
+			me=0;
+			he++;
+		}
+		else if (me>60) {
+			me = me - 60;
+			he++;
+		}
+		
+		String output = String.format("%02d:%02d-%02d:%02d",
+				hs,ms,he,me);
+		
+		return output;
+	}
 	/**
 	 * retrieves the available slots available on a given date for a speciality.
 	 * The returned map contains an entry for each doctor that has slots scheduled on the date.

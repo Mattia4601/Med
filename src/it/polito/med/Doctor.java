@@ -13,7 +13,14 @@ public class Doctor {
 	private TreeMap<String,Set<String>> slots = new TreeMap<>();
 	
 	
-
+	// this method adds a entry into the doc's slots map 
+	public void addSlot(String date, Set<String> slots) {
+		this.slots.put(date, slots);
+	}
+	
+	public TreeMap<String,Set<String>> getSlotsMap(){
+		return this.slots;
+	}
 	
 	public String getId() {
 		return id;
