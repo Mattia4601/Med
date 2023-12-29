@@ -94,13 +94,13 @@ public class TestExample {
 		assertNull(mgr.nextAppointment(code));
 		
 		
-//		// R5 : stats
-//		
-//		double noShow = mgr.showRate(code, "2023-06-28");
-//		assertEquals(0.5, noShow, 0.001);
-//		
-//		Map<String,Double> completeness = mgr.scheduleCompleteness();
-//		assertNotNull(completeness);
+		// R5 : stats
+		
+		double noShow = mgr.showRate(code, "2023-06-28");
+		assertEquals(0.5, noShow, 0.001);
+		
+		Map<String,Double> completeness = mgr.scheduleCompleteness();
+		assertNotNull(completeness);
 //		assertEquals(3,completeness.size());
 //		assertEquals(2.0/15.0, completeness.get(code), 0.001);
 //		

@@ -416,7 +416,16 @@ public class MedManager {
 	 * @return	no show rate
 	 */
 	public double showRate(String code, String date) {
-		return -1.0;
+		
+		double totNoApp = this.appColl.values().stream()
+				.filter(a->a.getDocID().equals(code) && a.getDate().equals(date)).count();
+		System.out.println(totNoApp);
+		double accPatNo = this.appColl.values().stream()
+				.filter(a->a.getDocID().equals(code) && a.getDate().equals(date))
+				.filter(a->a.isAccepted())
+				.count();
+		System.out.println(accPatNo);
+		return accPatNo/totNoApp;
 	}
 
 	/**
@@ -428,9 +437,24 @@ public class MedManager {
 	 * @return the map id : completeness
 	 */
 	public Map<String, Double> scheduleCompleteness() {
-		return null;
+		
+		Map<String, Double> res = this.doctorsColl.values().stream()
+		.collect(Collectors.toMap(d->d.getId(),
+				d->{
+				int totalSchedApp = getScheduledAppForDoc(d.getId());
+				int totSlotsNo = d.getTotNoSlotsPerDate(this.currentDate);
+				return (double) totalSchedApp/totSlotsNo;
+				}));
+		
+		return res;
 	}
 
-
+	// this method returns the number of appointments scheduled for a given doctor
+	// in a given date 
+	public int getScheduledAppForDoc(String doc_id) {
+		return (int) this.acceptedAppPerDocColl.get(doc_id).stream()
+		.filter(a->a.getDate().equals(this.currentDate))
+		.count();
+	} 
 	
 }

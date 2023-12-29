@@ -12,7 +12,10 @@ public class Doctor {
 	// collection for doctor slots, key date, value set of strings
 	private TreeMap<String,Set<String>> slots = new TreeMap<>();
 	
-	
+	// this method returns the total number of slots in the schedule for a given date
+	public int getTotNoSlotsPerDate(String date) {
+		return this.slots.get(date).size();
+	}
 	// this method checks if the doctor is available for a specific date
 	public boolean hasDate(String date) {
 		return this.slots.containsKey(date);
