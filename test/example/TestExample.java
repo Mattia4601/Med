@@ -78,22 +78,22 @@ public class TestExample {
 		assertTrue(appointments.contains("10:40="+ssn));
 		
 		
-//		// R4 : welcome patients
-//		
-//		int numApps = mgr.setCurrentDate("2023-06-28");
-//		assertEquals(2, numApps);
-//		
-//		mgr.accept(ssn);
-//		
-//		String nextApp = mgr.nextAppointment(code);
-//		assertNotNull(nextApp);
-//		assertEquals(a1,nextApp);
-//		
-//		mgr.completeAppointment(code,nextApp);
-//		
-//		assertNull(mgr.nextAppointment(code));
-//		
-//		
+		// R4 : welcome patients
+		
+		int numApps = mgr.setCurrentDate("2023-06-28");
+		assertEquals(2, numApps);
+		
+		mgr.accept(ssn);
+		
+		String nextApp = mgr.nextAppointment(code);
+		assertNotNull(nextApp);
+		assertEquals(a1,nextApp);
+		
+		mgr.completeAppointment(code,nextApp);
+		
+		assertNull(mgr.nextAppointment(code));
+		
+		
 //		// R5 : stats
 //		
 //		double noShow = mgr.showRate(code, "2023-06-28");

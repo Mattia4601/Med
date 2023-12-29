@@ -1,6 +1,6 @@
 package it.polito.med;
 
-public class Appointment {
+public class Appointment implements Comparable<Appointment> {
 	// patient's infos
 	private String ssn;
 	private String name;
@@ -12,9 +12,23 @@ public class Appointment {
 	private String startTime;
 	private String slotTime;
 	private String appID; // appointment id
+	private boolean accepted;
 	
+	@Override
+	public int compareTo(Appointment o) {
+
+		return this.startTime.compareTo(o.startTime);
+	}
+
 	
-	
+	public boolean isAccepted() {
+		return accepted;
+	}
+
+	public void setAccepted(boolean accepted) {
+		this.accepted = accepted;
+	}
+
 	public Appointment(String ssn, String name, String surname, String docID, String date, String startTime,
 			String slotTime) {
 		super();

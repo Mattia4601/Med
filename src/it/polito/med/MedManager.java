@@ -19,7 +19,9 @@ public class MedManager {
 	private TreeMap<String,Doctor> doctorsColl = new TreeMap<>();
 	// appointments collection
 	private TreeMap<String,Appointment> appColl = new TreeMap<>();
-	
+	// accepted appointments for each doctor coll --> map key=docID value=Set of appointments accepted
+	private TreeMap<String,TreeSet<Appointment>> acceptedAppPerDocColl = new TreeMap<>();
+	private String currentDate;
 	/**
 	 * add a set of medical specialities to the list of specialities
 	 * offered by the med centre.
@@ -327,7 +329,11 @@ public class MedManager {
 	 * @return the number of total appointments for the day
 	 */
 	public int setCurrentDate(String date) {
-		return -1;
+		this.currentDate=date;
+		
+		return (int) this.appColl.values().stream()
+				.filter(a->a.getDate().equals(date))
+				.count();
 	}
 
 	/**
@@ -336,7 +342,23 @@ public class MedManager {
 	 * @param ssn SSN of the patient
 	 */
 	public void accept(String ssn) {
-
+		this.appColl.values().stream()
+			.filter(a->a.getDate().equals(currentDate))
+			.filter(a->a.getSsn().equals(ssn))
+			.forEach(a->{
+				// se non abbiamo ancora un entry per questo dottore ne aggiungiamo una
+				if (!this.acceptedAppPerDocColl.containsKey(a.getDocID())) {
+					TreeSet<Appointment> accApp = new TreeSet<>();
+					accApp.add(a);
+					this.acceptedAppPerDocColl.put(a.getDocID(), accApp);
+				}
+				else {
+					// altrimenti se c'è già aggiorno soltanto il set relativo agli appuntamenti accettati dal dottore
+					this.acceptedAppPerDocColl.get(a.getDocID()).add(a);
+				}
+				// in ogni caso poi setta il paziente come accettato
+				a.setAccepted(true);
+			});
 	}
 
 	/**
@@ -349,7 +371,12 @@ public class MedManager {
 	 * @return appointment id
 	 */
 	public String nextAppointment(String code) {
-		return null;
+		TreeSet<Appointment> accApp = this.acceptedAppPerDocColl.get(code);
+		
+		if (accApp == null || accApp.size()==0)
+			return null;
+		
+		return accApp.first().getAppID();
 	}
 
 	/**
@@ -365,7 +392,19 @@ public class MedManager {
 	 * 						or appointment not for the current day
 	 */
 	public void completeAppointment(String code, String appId)  throws MedException {
-
+		
+		if (!this.doctorsColl.containsKey(code))
+			throw new MedException();
+		Doctor doc = this.doctorsColl.get(code);
+		if (!this.appColl.containsKey(appId))
+			throw new MedException();
+		Appointment app = this.appColl.get(appId);
+		
+		if (!this.acceptedAppPerDocColl.get(code).contains(app))
+			throw new MedException();
+		
+		// appointment completed we can remove it from our collection
+		this.acceptedAppPerDocColl.get(code).remove(app);
 	}
 
 	/**
