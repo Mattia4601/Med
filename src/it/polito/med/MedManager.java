@@ -166,6 +166,8 @@ public class MedManager {
 		
 		// add to doctor slots collection
 		doc.addSlot(date, slots_set);
+		// update the number of total slots for a doctor
+		doc.updTotSlots(countSlot);
 		return countSlot;
 	}
 	
@@ -259,7 +261,7 @@ public class MedManager {
 		
 		// add the new appointment to our collection
 		this.appColl.put(Integer.toString(nApp+1), app);
-		
+		doc.updScheduledApp();
 		return Integer.toString(nApp+1);
 	}
 
@@ -358,6 +360,7 @@ public class MedManager {
 				}
 				// in ogni caso poi setta il paziente come accettato
 				a.setAccepted(true);
+				
 			});
 	}
 
@@ -424,7 +427,7 @@ public class MedManager {
 				.filter(a->a.getDocID().equals(code) && a.getDate().equals(date))
 				.filter(a->a.isAccepted())
 				.count();
-		System.out.println(accPatNo);
+		
 		return accPatNo/totNoApp;
 	}
 
@@ -438,23 +441,21 @@ public class MedManager {
 	 */
 	public Map<String, Double> scheduleCompleteness() {
 		
+		
 		Map<String, Double> res = this.doctorsColl.values().stream()
 		.collect(Collectors.toMap(d->d.getId(),
 				d->{
-				int totalSchedApp = getScheduledAppForDoc(d.getId());
-				int totSlotsNo = d.getTotNoSlotsPerDate(this.currentDate);
-				return (double) totalSchedApp/totSlotsNo;
+					System.out.println("Doc: "+((Doctor) d).getId());
+
+					int totSlotsNo = ((Doctor) d).getTotalSlots();
+					int totAcceptedApp = ((Doctor) d).getScheduledAppointments();
+					System.out.println("totSlotsNo: "+totSlotsNo);
+					System.out.println("totAcceptedApp: "+totAcceptedApp);
+					
+					return (double)totAcceptedApp/totSlotsNo;
 				}));
 		
 		return res;
 	}
 
-	// this method returns the number of appointments scheduled for a given doctor
-	// in a given date 
-	public int getScheduledAppForDoc(String doc_id) {
-		return (int) this.acceptedAppPerDocColl.get(doc_id).stream()
-		.filter(a->a.getDate().equals(this.currentDate))
-		.count();
-	} 
-	
 }

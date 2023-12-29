@@ -11,9 +11,32 @@ public class Doctor {
 	private String speciality;
 	// collection for doctor slots, key date, value set of strings
 	private TreeMap<String,Set<String>> slots = new TreeMap<>();
+	private int scheduledAppointments=0;
+	private int totalSlots=0;
+	
+	public int getScheduledAppointments() {
+		return scheduledAppointments;
+	}
+
+	public int getTotalSlots() {
+		return totalSlots;
+	}
+
+	public void updScheduledApp() {
+		this.scheduledAppointments++;
+	}
+	
+	public void updTotSlots(int n) {
+		this.totalSlots+=n;
+	}
 	
 	// this method returns the total number of slots in the schedule for a given date
 	public int getTotNoSlotsPerDate(String date) {
+		if (this.slots.get(date)==null)
+		{
+			System.out.println("no slots for "+this.id);
+			return -1;
+		}
 		return this.slots.get(date).size();
 	}
 	// this method checks if the doctor is available for a specific date
@@ -70,4 +93,3 @@ public class Doctor {
 	
 	
 }
-

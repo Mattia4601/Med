@@ -101,9 +101,9 @@ public class TestExample {
 		
 		Map<String,Double> completeness = mgr.scheduleCompleteness();
 		assertNotNull(completeness);
-//		assertEquals(3,completeness.size());
-//		assertEquals(2.0/15.0, completeness.get(code), 0.001);
-//		
+		assertEquals(3,completeness.size());
+		assertEquals(2.0/15.0, completeness.get(code), 0.001);
+		
 	}
 		
 }
